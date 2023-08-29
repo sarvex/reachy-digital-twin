@@ -81,14 +81,22 @@ def gui_debug_model_rotation():
         for name, val in joint_node_offset.items():
             change, joint_node_offset[name]["r"] = hl.ImGuiSliderFloat(f"angle {name}", val["r"], -pi, pi)
             hl.ImGuiSameLine()
-            change, joint_node_offset[name]["inverse_angle"] = hl.ImGuiCheckbox(
-                "invert angle##right" + name, val["inverse_angle"])
+            (
+                change,
+                joint_node_offset[name]["inverse_angle"],
+            ) = hl.ImGuiCheckbox(
+                f"invert angle##right{name}", val["inverse_angle"]
+            )
 
         for name, val in joint_node_offset.items():
             change, joint_node_offset[name]["r"] = hl.ImGuiSliderFloat(f"angle {name}", val["r"], -pi, pi)
             hl.ImGuiSameLine()
-            change, joint_node_offset[name]["inverse_angle"] = hl.ImGuiCheckbox(
-                "invert angle##left" + name, val["inverse_angle"])
+            (
+                change,
+                joint_node_offset[name]["inverse_angle"],
+            ) = hl.ImGuiCheckbox(
+                f"invert angle##left{name}", val["inverse_angle"]
+            )
     hl.ImGuiEnd()
 
 
@@ -212,10 +220,10 @@ def create_vr_controller():
                                                "oculus_controller/oculus_controller_right.scn", hl.gVal.res,
                                                hl.GetForwardPipelineInfo())
     oculus_right[0].Disable()
-    controller_instances = [{"left": oculus_left, "right": oculus_right},
-                            {"left": vive_left, "right": vive_right}]
-
-    return controller_instances
+    return [
+        {"left": oculus_left, "right": oculus_right},
+        {"left": vive_left, "right": vive_right},
+    ]
 
 
 def hide_reachy_head():
